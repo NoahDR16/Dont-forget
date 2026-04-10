@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Read(//Users/noahdos-reis/.nvm/versions/**)",
+      "Read(//Users/noahdos-reis/.volta/**)"
+    ]
+  }
+}

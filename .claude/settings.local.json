@@ -3,7 +3,12 @@
     "allow": [
       "Bash(npm --version)",
       "Read(//Users/noahdos-reis/.nvm/versions/**)",
-      "Read(//Users/noahdos-reis/.volta/**)"
+      "Read(//Users/noahdos-reis/.volta/**)",
+      "Bash(ssh -T git@github.com)",
+      "Bash(ls ~/.ssh/*.pub)",
+      "Bash(gh auth:*)",
+      "Bash(command -v npm)",
+      "Read(//usr/local/**)"
     ]
   }
 }

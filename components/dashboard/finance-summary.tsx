@@ -1,29 +1,58 @@
 import Link from "next/link";
-import { Wallet, ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+// TODO: replace with real data
+const budget = { spent: 23, total: 50 };
+const lastTransaction = { label: "Rewe", amount: -12.40 };
+const pct = Math.min(Math.round((budget.spent / budget.total) * 100), 100);
+const isOver = pct >= 90;
 
 export function FinanceSummary() {
   return (
-    <div className="bg-card border rounded-xl p-6 space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="font-semibold">Finanzübersicht</h2>
-        <Link
-          href="/finance"
-          className="text-xs text-muted-foreground hover:text-primary flex items-center gap-1"
-        >
-          Details <ArrowRight className="h-3 w-3" />
-        </Link>
-      </div>
+    <Link href="/finance" className="block">
+      <div className={cn(
+        "rounded-2xl p-4 border shadow-soft animate-fade-in transition-transform hover:scale-[1.01]",
+        isOver
+          ? "bg-danger-soft border-danger/20"
+          : "bg-card border-border"
+      )}>
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-widest">
+            Tagesbudget
+          </p>
+          <span className={cn(
+            "text-xs font-bold",
+            isOver ? "text-danger" : "text-finance"
+          )}>
+            €{budget.spent} / €{budget.total}
+          </span>
+        </div>
 
-      <div className="flex flex-col items-center justify-center py-8 text-muted-foreground">
-        <Wallet className="h-8 w-8 mb-2 opacity-40" />
-        <p className="text-sm">Noch keine Transaktionen</p>
-        <Link
-          href="/finance"
-          className="text-xs text-blue-600 hover:underline mt-1"
-        >
-          Transaktion erfassen
-        </Link>
+        {/* Progress bar */}
+        <div className="h-2 bg-border rounded-full overflow-hidden mb-3">
+          <div
+            className={cn(
+              "h-full rounded-full transition-all duration-500",
+              isOver ? "bg-danger" : "bg-finance"
+            )}
+            style={{ width: `${pct}%` }}
+          />
+        </div>
+
+        {/* Last transaction */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-muted-foreground">Letzte:</span>
+            <span className="text-xs font-medium text-foreground">{lastTransaction.label}</span>
+          </div>
+          <span className={cn(
+            "text-xs font-semibold",
+            lastTransaction.amount < 0 ? "text-danger" : "text-finance"
+          )}>
+            {lastTransaction.amount < 0 ? "" : "+"}{lastTransaction.amount.toFixed(2).replace(".", ",")} €
+          </span>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }

@@ -1,16 +1,33 @@
 "use client";
 
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+
+const filters = [
+  { label: "Alle", value: "all" },
+  { label: "Heute", value: "today" },
+  { label: "Offen", value: "open" },
+  { label: "Erledigt", value: "done" },
+  { label: "Dringend", value: "urgent" },
+];
+
 export function TaskFilters() {
-  const filters = ["Alle", "Offen", "In Arbeit", "Erledigt"];
+  const [active, setActive] = useState("all");
 
   return (
-    <div className="flex gap-2 flex-wrap">
-      {filters.map((filter) => (
+    <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide no-scrollbar">
+      {filters.map((f) => (
         <button
-          key={filter}
-          className="px-4 py-1.5 text-sm rounded-full border hover:bg-accent transition-colors first:bg-primary first:text-primary-foreground first:border-primary"
+          key={f.value}
+          onClick={() => setActive(f.value)}
+          className={cn(
+            "px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-150 border",
+            active === f.value
+              ? "bg-tasks text-white border-tasks shadow-soft"
+              : "bg-card text-muted-foreground border-border hover:border-tasks/40 hover:text-tasks"
+          )}
         >
-          {filter}
+          {f.label}
         </button>
       ))}
     </div>

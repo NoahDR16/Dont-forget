@@ -1,57 +1,59 @@
-import { CheckSquare, Calendar, TrendingUp, TrendingDown } from "lucide-react";
+import { CalendarDays, CheckSquare, TrendingUp } from "lucide-react";
+import Link from "next/link";
 
-// TODO: Replace with real data fetching
 const stats = [
   {
-    label: "Offene Aufgaben",
-    value: "–",
+    label: "Termine",
+    value: "3",
+    href: "/calendar",
+    icon: CalendarDays,
+    color: "text-calendar",
+    bg: "bg-calendar-soft",
+  },
+  {
+    label: "Aufgaben",
+    value: "2",
+    href: "/tasks",
     icon: CheckSquare,
-    color: "text-blue-600",
-    bg: "bg-blue-50 dark:bg-blue-900/20",
+    color: "text-tasks",
+    bg: "bg-tasks-soft",
   },
   {
-    label: "Termine diese Woche",
-    value: "–",
-    icon: Calendar,
-    color: "text-purple-600",
-    bg: "bg-purple-50 dark:bg-purple-900/20",
-  },
-  {
-    label: "Einnahmen (Monat)",
-    value: "–",
+    label: "Budget",
+    value: "+€45",
+    href: "/finance",
     icon: TrendingUp,
-    color: "text-green-600",
-    bg: "bg-green-50 dark:bg-green-900/20",
-  },
-  {
-    label: "Ausgaben (Monat)",
-    value: "–",
-    icon: TrendingDown,
-    color: "text-red-600",
-    bg: "bg-red-50 dark:bg-red-900/20",
+    color: "text-finance",
+    bg: "bg-finance-soft",
   },
 ];
 
 export function DashboardStats() {
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      {stats.map((stat) => {
-        const Icon = stat.icon;
-        return (
-          <div
-            key={stat.label}
-            className="bg-card border rounded-xl p-4 flex items-center gap-4"
-          >
-            <div className={`${stat.bg} p-2.5 rounded-lg`}>
-              <Icon className={`h-5 w-5 ${stat.color}`} />
-            </div>
-            <div>
-              <p className="text-2xl font-bold">{stat.value}</p>
-              <p className="text-xs text-muted-foreground">{stat.label}</p>
-            </div>
-          </div>
-        );
-      })}
+    <div className="bg-card border border-border rounded-2xl p-4 shadow-soft animate-fade-in">
+      <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-widest mb-3">
+        Heute auf einen Blick
+      </p>
+      <div className="grid grid-cols-3 divide-x divide-border">
+        {stats.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <Link
+              key={stat.label}
+              href={stat.href}
+              className="flex flex-col items-center gap-2 py-1 group"
+            >
+              <div className={`${stat.bg} w-10 h-10 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110`}>
+                <Icon className={`h-4.5 w-4.5 ${stat.color}`} strokeWidth={2} />
+              </div>
+              <div className="text-center">
+                <p className={`text-xl font-bold leading-none ${stat.color}`}>{stat.value}</p>
+                <p className="text-[11px] text-muted-foreground mt-0.5">{stat.label}</p>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
 }
